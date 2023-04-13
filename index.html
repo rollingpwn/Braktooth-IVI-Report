@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<!-- saved from url=(0027)https://www.hertzbleed.com/ -->
+<html lang="en">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Braktooth Hunting in the Car Hacker's Wonderland</title>
+    <link href="./css/style.css" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+
+      <header id="top">
+        <h1 class="pMain">Braktooth Hunting <br/>in the Car Hacker's Wonderland</h1>
+     <!--    <div class="logo"></div>-->
+      </header>
+
+      <section>
+	  
+		<div class="quarter noBorderOnLeft">
+		<h2 id="research-paper"  class="pPress">INTRODUCTION</h2>
+        <p class="pfont">
+		Years ago, a team of researchers at SUTD (Asset-Group) discovered and disclosed the family of vulnerabilities in the classic Bluetooth link manager layer. They've released a paper and POC named "Braktooth: Causing Havoc on Bluetooth link manager" The paper is very detailed and enjoyable to read. I highly recommend it to anyone into Bluetooth security. The Braktooth is a codename for 16 classic Bluetooth vulnerabilities. It will cause affect BT devices continuously crash or deadlock. Furthermore, at least in one case, attackers can remotely execute arbitrary code and erase all the data on the targeted devices. These bugs are present in various BT Chipsets across many manufacturers such as Intel, Qualcomm, TI, Infineon, etc. 
+
+		 <br/></p>
+		 <div class="footer-B1"> </div>
+		 <p class="pfont">
+		 
+		 Since my main interest focused on vehicle security, after reading through the Braktooth paper, one thing immediately got my attention. They mentioned in the paper, Braktooth not only affects laptops, and smartphones but also Infotainment units in Automobiles, even the audio system in airplanes is affected. For IVIs, they listed the Volvo FH as an example in the paper. This got me wondering if any other popular cars out there are also affected by Braktooth. 
+		 </p>
+		 <div class="footer-B2"></div>
+		</div>
+		  <div class="quarter noBorderOnLeft">
+          <h2 id="research-paper"  class="pPress">FIRST-BLOOD</h2>
+          <p class="pfont">
+			Before we jump on the cars, we need to get familiar with Braktooth. The actual environment is quite simple to set it up. In the paper, they mentioned some Chipset from Mediatek that are affected. My laptop Lenovo L14 happened to use the Ralink chipset for Bluetooth communication. Since Ralink is part of the Mediatek group, which make it is the perfect target for the test run.    
+			<br/>
+			<div class="footer-B3"></div>
+			<br/>
+			Because there are 16 POCs from the Braktooth vulnerabilities, we've to go through all of them. And we found one of the vulnerabilities called Invalid-Timing-Accuracy almost always work. The vulnerable chipsets do not properly handle the reception of a malformed LMP timing accuracy response followed by multiple re-connections to the target link slave. 
+			<br/>
+			</p>
+			<div class="footer-B4"></div>
+			 <p class="pfont">
+				This allows attackers to exhaust device BT resources. The attacker can trigger a crash or disturb other BT devices connected to the target chipset. The best part is attacker only needs to know the BDAddress of the target device. No authentication is required to launch the attack. As the video below demonstrated, the Bluetooth connection between the laptop and speaker stop functioning and eventually disconnected the connection. 
+			<br/></p>
+			<video width="570" height="320" controls="controls" class="pVideo">
+				<source src="video/4.mp4" type="video/mp4">
+			</video>
+		  </div>
+		  
+		<div class="quarter noBorderOnLeft">
+          <h2 id="research-paper"  class="pPress">INVESTIGATION</h2>
+          <p class="pfont">
+			People always ask us how can Star-V Lab access so many cars. And this project is a perfect chance to show how we achieved it. The easiest place to start would be for the Car components to sit on the test bench table. For example, we happened to have a 2nd hand Nissan IVI in the lab. As we can see, after we fired the Invalid-Timing-Accuracy POC, the Nissan IVI kind of frozen, and it won't detect any Bluetooth devices nearby anymore.  
+			<br/>
+			</p>
+			<video width="570" height="320" controls="controls" class="pVideo">
+				<source src="video/8.mp4" type="video/mp4">
+			</video>
+		  <p class="pfont">
+			The 2nd place to look for potential targets is the company car parking lot. If we ask nicely, most of the staff even the company CEO are interested to see if their car can hacked ;) At that time, we got 2 Tesla cars and 1 Changan Uni-T accessible for testing. For Tesla Model 3 and Model X, only the Invalid-Setup-Complete POC worked. All other POCs failed.
+		  <br/></p>
+		  <video width="570" height="320" controls="controls" class="pVideo">
+			<source src="video/9.mp4" type="video/mp4">
+		  </video>
+		  <video width="570" height="320" controls="controls" class="pVideo">
+			<source src="video/2.mp4" type="video/mp4">
+		  </video>
+		  <p class="pfont">
+			But for Changan Uni-T almost all the vulns works. Only 6 of the POC has no impaction. As the video shows, Braktooth disconnected the connection. Interestingly the Bluetooth logo on the IVI screen still shows everything is fine, but in fact, the connection has been disconnected. 
+		  <br/></p>
+			<video width="570" height="320" controls="controls" class="pVideo">
+				<source src="video/10.mp4" type="video/mp4">
+			</video>
+			<p class="pfont">
+			If we got enough budget we can rent some cars for testing. But what if our budget is short and we need to test the latest modern cars? An advantage of living in a big city is we are surrounded by Car dealer shops. And these are perfect spots for us.
+			<br/></p>
+			<div class="footer-B5"></div>
+			<p class="pfont">
+			This time we found 4 cars affected by Braktooth. The first one is NIO ET5, which is a Chinese brand and quite popular in China. 
+			<br/></p>
+			<div class="footer-B6"></div>
+			<p class="pfont">
+			For NIO it will disconnect the Bluetooth connection straight away.
+			<br/></p>
+			<video width="570" height="320" controls="controls" class="pVideo">
+				<source src="video/1.mp4" type="video/mp4">
+			</video>
+			<p class="pfont">
+			Then we went to the Volkswagen to test ID4X. Compare to other Android-based IVI, ID4X seems a bit hard to use. 
+			<br/></p>
+			<div class="footer-B7"></div>
+			<p class="pfont">
+			Again once we fired the attack, the Bluetooth connection disconnected.
+			<br/></p>
+			<video width="570" height="320" controls="controls" class="pVideo">
+				<source src="video/7.mp4" type="video/mp4">
+			</video>
+			<p class="pfont">
+			Finally, we tested a new smart car player in the Chinese market called ARCFOX. As the video shows the music start been funny after we fired the attack.   
+			<br/></p>
+			<video width="570" height="320" controls="controls" class="pVideo">
+				<source src="video/0.mp4" type="video/mp4">
+			</video>
+			<p class="pfont">
+			One thing special regarding this brand is one of the car models using the Huawei HarmonyOS as IVI's system. 
+			<br/></p>
+			<div class="footer-B8"></div>
+			<p class="pfont">
+			However, when coming to low-level Bluetooth attack, Huawei HarmonyOS makes no difference.
+			<br/></p>
+			<video width="570" height="320" controls="controls" class="pVideo">
+				<source src="video/6.mp4" type="video/mp4">
+			</video>
+			<p class="pfont">
+			Another nice spot for testing is the Car exhibition. The good thing about the exhibition is we may able to test some fancy sports cars, which normally we won't be able to touch. 
+			<br/></p>
+			<div class="footer-B9"></div>
+			<p class="pfont">
+			Here we've tested the Neta V and Leapmotor C01 cars. 
+			<br/></p>
+			<div class="footer-B10"></div>
+			<br/><div class="footer-B11"></div>
+			<p class="pfont">
+			As we can see both of them experienced the disturb first then the connection disconnected completely.  
+			<br/></p>
+			<div class="footer-B12"></div>
+			<br/>
+			<video width="570" height="320" controls="controls" class="pVideo">
+				<source src="video/3.mp4" type="video/mp4">
+			</video>
+		 </div>
+		 
+		 <div class="quarter noBorderOnLeft">
+          <h2 id="research-paper"  class="pPress">FINAL-FHOUGHT</h2>
+          <p class="pfont">
+			As whitehat security researchers, we like to follow the responsible disclosure procedure. Unfortunately unlike the Internet companies, most car companies still live in a stone age. They neither don't have a bounty program nor contact info for reporting bugs. Therefore, we filed a report to their customer service and hope someone can see it. But we like to give a thumbup to the Tesla and NIO. These two companies have set up bug bounty programs and given a very quick response to our bug report. However, Nio replied that this bug has out of their scope.
+		  
+		<br/></p>
+		  <div class="footer-B13"></div>
+		   <p class="pfont">
+			And Tesla thinks this is not a security issue, since the braktooth was only able to cause the Tesla Bluetooth audio jitters. We kind of agreed on this point, so let's continue our journey and digging deeper. Spoiler alert, we did find other issues on some of those IVIs above. And at least caused one of the fancy car's IVI to go black screen. Stay tuned for our future report ;)
+			</p>
+		  <div class="footer-B14"></div>
+		  
+		
+		 </div>
+		 
+		<div class="quarter noBorderOnLeft">
+		<h2 id="research-paper"  class="pPress">REFERENCES</h2>	
+
+		<p class="plink">
+			·	<a href="https://asset-group.github.io/disclosures/braktooth/">https://asset-group.github.io/disclosures/braktooth/</a><br/>
+			·	<a href="https://github.com/Matheus-Garbelini/braktooth_esp32_bluetooth_classic_attacks">https://github.com/Matheus-Garbelini/braktooth_esp32_bluetooth_classic_attacks</a><br/>
+			·	<a href="https://naehrdine.blogspot.com/2021/09/hunting-ghosts-in-bluetooth-firmware.html">https://naehrdine.blogspot.com/2021/09/hunting-ghosts-in-bluetooth-firmware.html</a><br/>
+		</p>
+		</div>
+
+      </section>
+	   <br/>
+	   <br/>
+
+      <footer>
+        <p class="text-muted">Braktooth IVI Report</p>
+      </footer>
+		
+  
+
+<div class="xl-chrome-ext-bar" id="xl_chrome_ext_{4DB361DE-01F7-4376-B494-639E489D19ED}" style="display: none;">
+      <div class="xl-chrome-ext-bar__logo"></div>
+    </div></body></html>
